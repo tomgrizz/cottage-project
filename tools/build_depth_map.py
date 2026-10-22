@@ -21,6 +21,11 @@ PAD = 18             # breathing room around the lake
 SIMPLIFY = 0.45      # Douglas-Peucker tolerance in SVG units
 M_TO_FT = 3.28084
 
+# Places to mark on the map. Public boat launch: OpenStreetMap slipway node (CanVec) on Price Road
+PLACES = [
+    {"name": "Boat launch", "lon": -76.9130411, "lat": 44.7360701},
+]
+
 # Depth bands, in metres: band i covers BANDS[i] to BANDS[i+1]; the last is open-ended
 BANDS = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
 
@@ -204,6 +209,14 @@ for r in rings:
         labels.append((x, y, "Hump", "dm-label dm-label-hump"))
 for x, y, text, cls in labels:
     out.append(f'<text class="{cls}" x="{x:.1f}" y="{y:.1f}">{text}</text>')
+
+# Marked places: a dot on the shore with its name set out over the land to the west
+for place in PLACES:
+    (x, y), = [((to_m(place["lon"], place["lat"])[0] - x_off) * scale + PAD,
+                (to_m(place["lon"], place["lat"])[1] - y_off) * scale + PAD)]
+    out.append(f'<g class="dm-place"><circle cx="{x:.1f}" cy="{y:.1f}" r="5.5"/>'
+               f'<text x="{x - 10:.1f}" y="{y:.1f}">{place["name"]}</text></g>')
+    print(f"  place {place['name']!r} at {x:.0f},{y:.0f}")
 
 # Scale bar (500 m) and north arrow, bottom left over land or shallow water
 bar = 500 * scale
