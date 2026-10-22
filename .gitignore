@@ -1,0 +1,8 @@
+# Original phone photos: full size and they carry GPS location. The site uses the cleaned copies in images/
+PXL_*.jpg
+
+# Private planning notes
+cottage.txt
+
+# Python
+__pycache__/
