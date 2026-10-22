@@ -152,3 +152,14 @@ document.querySelectorAll("[data-copy]").forEach((btn) => {
   frame.addEventListener("pointerdown", show);
   frame.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") clear(); });
 })();
+
+// Header: solid background once the hero has scrolled away
+(function () {
+  const header = document.querySelector(".site-header");
+  const hero = document.querySelector(".hero");
+  if (!header || !hero) return;
+  if (!("IntersectionObserver" in window)) { header.classList.add("is-solid"); return; }
+  new IntersectionObserver(([entry]) => {
+    header.classList.toggle("is-solid", !entry.isIntersecting);
+  }, { rootMargin: "-80px 0px 0px 0px" }).observe(hero);
+})();
